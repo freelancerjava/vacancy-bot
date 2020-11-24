@@ -12,7 +12,8 @@ import requests
 import json
 
 
-api_url = "http://localhost:4444/"
+api_url = "http://fork.uz:4444/"
+token = "1416576907:AAFlPluGEQTcCJtAVAx2o00GvGiqEMuxIpo"
 
 
 logging.basicConfig(
@@ -20,16 +21,6 @@ logging.basicConfig(
 )
 
 logger = logging.getLogger(__name__)
-
-# instantiate the JournaldLogHandler to hook into systemd
-# journald_handler = JournaldLogHandler()
-
-# set a formatter to include the level name
-# journald_handler.setFormatter(logging.Formatter(
-#     '[%(levelname)s] %(message)s'
-# ))
-
-# logger.addHandler(journald_handler)
 
 # optionally set the logging level
 logger.setLevel(logging.DEBUG)
@@ -68,13 +59,11 @@ def openBook(update, context):
     update.message.reply_text('Введите ID предприятия 🏤 ?',
                               reply_markup=ReplyKeyboardRemove())
 
-    res = requests.post(f'http://localhost:4444/visitors/{update.message.from_user.username}', data={
+    res = requests.post(f'{api_url}/visitors/{update.message.from_user.username}', data={
         "username": update.message.from_user.username,
         "phone": None,
         "chat_id": update.message.chat.id
     })
-
-    # print(f'http://localhost:4444/visitors/{update.message.from_user.username}')
 
     # print(res.text)
 
@@ -167,7 +156,7 @@ def end(update, context):
             }
         """ % (update.message.from_user.username)
 
-    res = requests.post(f'http://localhost:4444/graphql', data={
+    res = requests.post(f'{api_url}/graphql', data={
         "query": gq
     })
 
@@ -182,7 +171,7 @@ def end(update, context):
         "type": order_type[message_from_user["type"]]
     }
 
-    res = requests.post(f'http://localhost:4444/orders', data=data)
+    res = requests.post(f'{api_url}/orders', data=data)
 
     print(data)
 
@@ -210,7 +199,7 @@ def cancel(update, context):
 
 def main():
     updater = Updater(
-        "1416576907:AAFlPluGEQTcCJtAVAx2o00GvGiqEMuxIpo", use_context=True)
+        f'{token}', use_context=True)
 
     dp = updater.dispatcher
 
