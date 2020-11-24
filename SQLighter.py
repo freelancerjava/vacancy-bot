@@ -9,12 +9,12 @@ class SQLighter:
     # requests: id(autoinc), user_id, type_id, date, additional, status
 
     def __init__(self, database):
-        # self.connection = sqlite3.connect(database)
-        self.connection = psycopg2.connect(user = "sysadmin",
-                                  password = "pynative@#29",
-                                  host = "127.0.0.1",
-                                  port = "5432",
-                                  database = "postgres_db")
+        self.connection = sqlite3.connect(database)
+        # self.connection = psycopg2.connect(user = "strapi",
+        #                           password = "strapi",
+        #                           host = "127.0.0.1",
+        #                           port = "5433",
+        #                           database = "postgres_db")
         self.cursor = self.connection.cursor()
 
     def close(self):
